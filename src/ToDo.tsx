@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import { Button } from 'semantic-ui-react';
 
 const ToDo: React.FC = ({ children }) => {
   const [isDone, setDone]: [Boolean, Function] = useState(false);
 
   return (
     <div>
-      <button onClick={ () => setDone(!isDone) }>
+      <Button color={isDone ? 'green' : 'grey'} onClick={ () => setDone(!isDone) }>
         O
-      </button>
+      </Button>
       <span>
         { isDone ? <s>{ children }</s> : children }
       </span>
