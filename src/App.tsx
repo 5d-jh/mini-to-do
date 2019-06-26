@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
+import ToDo from './ToDo';
 import { Button, Container, Input } from 'semantic-ui-react'
 import './App.css'
 
 const App: React.FC = () => {
-  const [todos, setTodos]: [String[], any] = useState([]);
-  const [todoInput, setTodoInput]: [String, any] = useState('');
+  const [todoList, setTodoList]: [String[], Function] = useState([]);
+  const [todoInput, setTodoInput]: [String, Function] = useState('');
 
   return (
     <Container>
       <Input
-        action={ <Button onClick={ () => { setTodos([todoInput, ...todos]) } }>Add</Button> }
+        action={ <Button onClick={ () => { setTodoList([todoInput, ...todoList]) } }>Add</Button> }
         onChange={ ({ target: { value } }) => setTodoInput(value) }
       />
       <div className="todo-lists">
-        { todos.map(todo => <div>{todo}</div>) }
+        { todoList.map(todo => <ToDo>{ todo }</ToDo> ) }
       </div>
     </Container>
   );
