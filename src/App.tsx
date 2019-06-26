@@ -17,6 +17,12 @@ const App: React.FC = () => {
     setTodoInput('');
   }
 
+  const deleteToDo = (idx: Number): Function => {
+    return () => {
+      setTodoList(todoList.filter((_, i) => i !== idx));
+    }
+  }
+
   return (
     <Container>
       <form onSubmit={addTodo}>
@@ -27,8 +33,8 @@ const App: React.FC = () => {
         />
       </form>
       <div className="todo-lists">
-          { todoList.map((todo, i) => <ToDo key={i}>{ todo }</ToDo> ) }
-        </div>
+        { todoList.map((todo, i) => <ToDo deleteToDo={deleteToDo} idx={i} key={i}>{todo}</ToDo> ) }
+      </div>
     </Container>
   );
 }
