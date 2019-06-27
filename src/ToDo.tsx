@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
+import ToDoType from './ToDoType';
 import { Button } from 'semantic-ui-react';
 
 interface ToDoPropTypes {
-  children: Object,
+  data: ToDoType
   idx: Number,
-  deleteToDo: Function
+  deleteToDo: Function,
+  modifyToDo: Function
 }
 
-const ToDo: React.FC<ToDoPropTypes> = ({ children, idx, deleteToDo }: ToDoPropTypes) => {
-  const [isDone, setDone]: [Boolean, Function] = useState(false);
+const ToDo: React.FC<ToDoPropTypes> = ({ data, idx, deleteToDo, modifyToDo }: ToDoPropTypes) => {
+  const { description, isDone } = data;
 
   return (
     <div>
-      <Button color={isDone ? 'green' : 'grey'} onClick={ () => setDone(!isDone) }>
+      <Button
+        color={data.isDone ? 'green' : 'grey'}
+        onClick={ modifyToDo(idx, { description, isDone: !isDone }) }
+      >
         O
       </Button>
       <Button
@@ -22,7 +27,7 @@ const ToDo: React.FC<ToDoPropTypes> = ({ children, idx, deleteToDo }: ToDoPropTy
         X
       </Button>
       <span>
-        {isDone ? <s>{children}</s> : children}
+        {isDone ? <s>{description}</s> : description}
       </span>
     </div>
   );
