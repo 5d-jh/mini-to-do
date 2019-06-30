@@ -1,37 +1,38 @@
 import React, { useState } from 'react';
-import ToDo from './ToDo';
+import TodoList from './TodoList';
 import ToDoType from './ToDoType';
-import { Container, Input } from 'semantic-ui-react'
 import './App.css'
+import TodoInput from './TodoInput';
+import { Container } from 'semantic-ui-react';
 
+/*
+  Component Role(s)
+  - Stores ToDos
+  - Adds and modifies ToDo
+*/
 
 const App: React.FC = () => {
   const [todoList, setTodoList]: [ToDoType[], Function] = useState([]);
-  const [todoInput, setTodoInput]: [String, Function] = useState('');
 
-  const addTodo = (e: any): void => {
-    e.preventDefault();
-
-    if (todoInput.length !== 0) {
+  const addTodo = (description: String): void => {
+    if (description.length !== 0) {
       setTodoList([
         {
-          description: todoInput,
+          description,
           isDone: false
         },
         ...todoList
       ]);
     }
-    
-    setTodoInput('');
   }
 
-  const modifyToDo = (idx: Number, modifiedData: ToDoType): Function => {
+  const toggleDone = (idx: Number, modifiedData: ToDoType): Function => {
     return () => {
       setTodoList(todoList.map( (data, i) => i === idx ? modifiedData : data ));
     }
   }
 
-  const deleteToDo = (idx: Number): Function => {
+  const deleteTodo = (idx: Number): Function => {
     return () => {
       setTodoList(todoList.filter((_, i) => i !== idx));
     }
@@ -39,16 +40,8 @@ const App: React.FC = () => {
 
   return (
     <Container>
-      <form onSubmit={addTodo}>
-        <Input
-          value={todoInput}
-          placeholder="Press Enter to add To-Do"
-          onChange={ ({ target: { value } }) => setTodoInput(value) }
-        />
-      </form>
-      <div className="todo-lists">
-        { todoList.map((todo, i) => <ToDo data={todo} modifyToDo={modifyToDo} deleteToDo={deleteToDo} idx={i} key={i} /> ) }
-      </div>
+      <TodoInput addTodo={addTodo} />
+      <TodoList todoList={todoList} setTodoList={setTodoList} toggleDone={toggleDone} deleteTodo={deleteTodo} />
     </Container>
   );
 }
