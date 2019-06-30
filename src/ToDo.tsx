@@ -1,9 +1,9 @@
 import React from 'react';
-import ToDoType from './ToDoType';
+import { TodoType } from './types';
 import { Button } from 'semantic-ui-react';
 
 interface ToDoPropTypes {
-  data: ToDoType
+  data: TodoType
   idx: Number,
   deleteToDo: Function,
   modifyToDo: Function

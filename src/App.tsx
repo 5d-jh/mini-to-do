@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TodoList from './TodoList';
-import ToDoType from './ToDoType';
+import { TodoType } from './types';
 import './App.css'
 import TodoInput from './TodoInput';
 import { Container } from 'semantic-ui-react';
@@ -12,7 +12,7 @@ import { Container } from 'semantic-ui-react';
 */
 
 const App: React.FC = () => {
-  const [todoList, setTodoList]: [ToDoType[], Function] = useState([]);
+  const [todoList, setTodoList]: [TodoType[], Function] = useState([]);
 
   const addTodo = (description: String): void => {
     if (description.length !== 0) {
@@ -26,7 +26,7 @@ const App: React.FC = () => {
     }
   }
 
-  const toggleDone = (idx: Number, modifiedData: ToDoType): Function => {
+  const toggleDone = (idx: Number, modifiedData: TodoType): Function => {
     return () => {
       setTodoList(todoList.map( (data, i) => i === idx ? modifiedData : data ));
     }
@@ -41,7 +41,7 @@ const App: React.FC = () => {
   return (
     <Container>
       <TodoInput addTodo={addTodo} />
-      <TodoList todoList={todoList} setTodoList={setTodoList} toggleDone={toggleDone} deleteTodo={deleteTodo} />
+      <TodoList todoList={todoList} toggleDone={toggleDone} deleteTodo={deleteTodo} />
     </Container>
   );
 }
