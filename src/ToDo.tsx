@@ -1,30 +1,41 @@
 import React from 'react';
-import { TodoType } from './types';
+import { TodoCtxtType, TodoCtxtConsumer } from './Context';
 import { Button } from 'semantic-ui-react';
+/*
+  Component Role(s)
+  - Displays and modifies to-do
+*/
 
-interface ToDoPropTypes {
-  data: TodoType
-  idx: Number,
-  deleteToDo: Function,
-  modifyToDo: Function
+type TodoPropTypes = {
+  idx: number
 }
 
-const ToDo: React.FC<ToDoPropTypes> = ({ data, idx, deleteToDo, modifyToDo }: ToDoPropTypes) => {
-  const { description, isDone } = data;
+const Todo: React.FC<TodoPropTypes & TodoCtxtType> = ({ idx, todoList, setTodoList }) => {
+  const childTodo = todoList[idx];
+  const { description, isDone } = childTodo;
 
+  const applyChildrenChange = (): void => {
+    setTodoList(todoList.map( (ctxtTodo, i) => idx === i ? childTodo : ctxtTodo ));
+  }
+  
   return (
     <div>
       <Button
-        color={data.isDone ? 'green' : 'grey'}
-        onClick={ modifyToDo(idx, { description, isDone: !isDone }) }
+        color={isDone ? 'green' : 'grey'}
+        onClick={
+          () => {
+            childTodo.isDone = !isDone;
+            applyChildrenChange();
+          }
+        }
       >
-        O
+        Mark as done
       </Button>
       <Button
         color="red"
-        onClick={ deleteToDo(idx) }
+        onClick={ () => setTodoList(todoList.filter( (_, i) => i !== idx )) }
       >
-        X
+        Delete
       </Button>
       <span>
         {isDone ? <s>{description}</s> : description}
@@ -33,4 +44,12 @@ const ToDo: React.FC<ToDoPropTypes> = ({ data, idx, deleteToDo, modifyToDo }: To
   );
 }
 
-export default ToDo;
+export default ({ idx } : TodoPropTypes) => (
+  <TodoCtxtConsumer>
+    {
+      ({ todoList, setTodoList }: TodoCtxtType) => (
+        <Todo idx={idx} todoList={todoList} setTodoList={setTodoList} />
+      )
+    }
+  </TodoCtxtConsumer>
+);

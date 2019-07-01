@@ -1,24 +1,61 @@
-import React from 'react';
-import ToDo from './ToDo';
-import { TodoType } from './types';
+import React, { useState } from 'react';
+import Todo from './Todo';
+import { Input } from 'semantic-ui-react';
+import { TodoCtxtConsumer, TodoCtxtType } from './Context';
 
 /*
   Component Role(s)
-  - Displays ToDos from parent component
+  - Displays list of to-dos
 */
 
-type TodoListPropTypes = {
-  todoList: TodoType[],
-  toggleDone: Function,
-  deleteTodo: Function
-};
+const TodoList: React.FC<TodoCtxtType> = ({ todoList, setTodoList }) => {
 
-const TodoList: React.FC<TodoListPropTypes> = ({ todoList, toggleDone, deleteTodo }) => {
+  const addTodo = (description: String): void => {
+    if (description.length !== 0) {
+      setTodoList([
+        {
+          description,
+          isDone: false
+        },
+        ...todoList
+      ]);
+    }
+  }
+
+  const [todoInput, setTodoInput]: [String, Function] = useState('');
+
+  const handleOnSubmit = (e: { preventDefault: Function }) => {
+    e.preventDefault();
+
+    if (todoInput.length !== 0) {
+      addTodo(todoInput);
+    }
+
+    setTodoInput('');
+  }
+
   return (
-    <ul className="todo-lists">
-      { todoList.map((todo, i) => <ToDo data={todo} modifyToDo={toggleDone} deleteToDo={deleteTodo} idx={i} key={i} /> ) }
-    </ul>
+    <>
+      <form onSubmit={handleOnSubmit}>
+        <Input
+          value={todoInput}
+          placeholder="Press Enter to add To-Do"
+          onChange={ e => setTodoInput(e.target.value) }
+        />
+      </form>
+      <ul className="todo-lists">
+        { todoList.map( (_, i: number) => <Todo idx={i} /> ) }
+      </ul>
+    </>
   );
 }
 
-export default TodoList;
+export default () => (
+  <TodoCtxtConsumer>
+    {
+      ({ todoList, setTodoList }: TodoCtxtType) => (
+        <TodoList todoList={todoList} setTodoList={setTodoList} />
+      )
+    }
+  </TodoCtxtConsumer>
+);
