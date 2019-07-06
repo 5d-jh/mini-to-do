@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TodoCtxtConsumer, TodoCtxtType } from './Context';
-import { Button, Input } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { TodoType } from './types';
 
 type LeftPanePropTypes = {
@@ -34,24 +34,29 @@ const LeftPane: React.FC<LeftPanePropTypes & TodoCtxtType> = ({
 
   return (
     <>
+      <h2 className="user title">Homer</h2>
+      <div className="subtitle">
+        Groups
+      </div>
       <form onSubmit={handleOnSubmit}>
-        <Input
+        <input
           value={listNameInput}
           placeholder="Press Enter to create list"
           onChange={ e => setListName(e.target.value) }
+          className="text-input"
         />
       </form>
-      <ul>
+      <div className="group-list">
         {
           todoLists.map( todoList => (
-            <li>
+            <div>
               <Button onClick={ () => setPickedListNo(todoList.listId) }>
                 {todoList.listName}
               </Button>
-            </li>
+            </div>
           ) )
         }
-      </ul>
+      </div>
     </>
   );
 }

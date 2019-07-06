@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TodoList from './TodoList';
 import { TodoCtxtProvider } from './Context';
-import { TodoType, TodoListType } from './types';
+import { TodoListType } from './types';
 import './App.css'
 import { Container } from 'semantic-ui-react';
 import LeftPane from './LeftPane';
@@ -17,12 +17,16 @@ const App: React.FC = () => {
   const [pickedListNo, setPickedListNo] = useState<Number | null>(null);
 
   return (
-    <Container>
+    <div className="container">
       <TodoCtxtProvider value={{ todoLists, setTodoLists, pickedListNo }}>
-        <LeftPane setPickedListNo={setPickedListNo} />
-        {pickedListNo ? <TodoList /> : null}
+        <div className="left-pane">
+          <LeftPane setPickedListNo={setPickedListNo} />
+        </div>
+        <div className="right-pane">
+          {pickedListNo ? <TodoList /> : null}
+        </div>
       </TodoCtxtProvider>
-    </Container>
+    </div>
   );
 }
 

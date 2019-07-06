@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Todo from './Todo';
-import { Input } from 'semantic-ui-react';
 import { TodoCtxtConsumer, TodoCtxtType } from './Context';
 import { TodoType } from './types';
 
@@ -40,7 +39,7 @@ const TodoList: React.FC<TodoCtxtType> = ({ todoLists, setTodoLists, pickedListN
     }
   }
 
-  const [todoInput, setTodoInput]: [String, Function] = useState('');
+  const [todoInput, setTodoInput] = useState(String);
 
   const handleOnSubmit = (e: { preventDefault: Function }) => {
     e.preventDefault();
@@ -77,13 +76,18 @@ const TodoList: React.FC<TodoCtxtType> = ({ todoLists, setTodoLists, pickedListN
 
   return (
     <>
+      <h1 className="list title">{todoList.listName}</h1>
       <form onSubmit={handleOnSubmit}>
-        <Input
+        <input
           value={todoInput}
           placeholder="Press Enter to add To-Do"
           onChange={ e => setTodoInput(e.target.value) }
+          className="text-input"
         />
       </form>
+      <div className="subtitle">
+        To-Dos
+      </div>
         <ul className="todo-lists">
         {
           todoList && todoList.listData.map(
