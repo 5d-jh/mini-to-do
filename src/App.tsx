@@ -3,7 +3,6 @@ import TodoList from './TodoList';
 import { TodoCtxtProvider } from './Context';
 import { TodoListType } from './types';
 import './App.css'
-import { Container } from 'semantic-ui-react';
 import LeftPane from './LeftPane';
 
 /*

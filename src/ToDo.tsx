@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
 import { TodoType } from './types';
 /*
   Component Role(s)
@@ -20,7 +19,7 @@ const Todo: React.FC<TodoPropTypes> = ({ todoData, controls }) => {
 
   return (
     <div>
-      <Button
+      <button
         color={isDone ? 'green' : 'grey'}
         onClick={
           () => modify(todoData.todoId, { 
@@ -31,13 +30,13 @@ const Todo: React.FC<TodoPropTypes> = ({ todoData, controls }) => {
         }
       >
         Mark as done
-      </Button>
-      <Button
+      </button>
+      <button
         color="red"
         onClick={ () => remove(todoData.todoId) }
       >
         Delete
-      </Button>
+      </button>
       <span>
         {isDone ? <s>{description}</s> : description}
       </span>

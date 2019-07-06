@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { TodoCtxtConsumer, TodoCtxtType } from './Context';
-import { Button } from 'semantic-ui-react';
 import { TodoType } from './types';
 
 type LeftPanePropTypes = {
@@ -50,9 +49,9 @@ const LeftPane: React.FC<LeftPanePropTypes & TodoCtxtType> = ({
         {
           todoLists.map( todoList => (
             <div>
-              <Button onClick={ () => setPickedListNo(todoList.listId) }>
+              <button onClick={ () => setPickedListNo(todoList.listId) }>
                 {todoList.listName}
-              </Button>
+              </button>
             </div>
           ) )
         }
