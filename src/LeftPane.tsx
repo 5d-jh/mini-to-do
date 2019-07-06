@@ -48,8 +48,12 @@ const LeftPane: React.FC<LeftPanePropTypes & TodoCtxtType> = ({
       <div className="group-list">
         {
           todoLists.map( todoList => (
-            <div>
-              <button onClick={ () => setPickedListNo(todoList.listId) }>
+            <div key={`${todoList.listId}`}>
+              <button
+                id={`${todoList.listId}`}
+                key={`${todoList.listId}`}
+                onClick={ e => setPickedListNo(Number(e.currentTarget.id)) }
+              >
                 {todoList.listName}
               </button>
             </div>

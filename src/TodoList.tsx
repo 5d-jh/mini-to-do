@@ -1,27 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Todo from './Todo';
-import { TodoCtxtConsumer, TodoCtxtType } from './Context';
-import { TodoType } from './types';
+import { TodoType, TodoListType } from './types';
 
 /*
   Component Role(s)
   - Displays list of to-dos
 */
 
-const TodoList: React.FC<TodoCtxtType> = ({ todoLists, setTodoLists, pickedListNo }) => {
-  const [todoList, setTodoList] = useState(
-    todoLists.filter(
-      ({ listId }) => listId === pickedListNo
-    ).slice()[0]
-  );
+type TodoListPropTypes = {
+  applyChanges(todoList: TodoListType): void,
+  todoListValue: TodoListType
+};
 
-  const applyChanges = (): void => {
-    setTodoLists(todoLists.map(
-      ctxtTodoList => ctxtTodoList.listId === pickedListNo ? todoList : ctxtTodoList
-    ));
-  }
+const TodoList: React.FC<TodoListPropTypes> = ({ todoListValue, applyChanges }) => {
+  const [todoList, setTodoList] = useState(todoListValue);
 
-  const addTodo = (description: String): void => {
+  //Apply children changes to parent state
+  useEffect(() => {
+    applyChanges(todoList);
+  }, [todoList]);
+
+  useEffect(() => {
+    setTodoList(todoListValue)
+  }, [todoListValue]);
+
+  const addTodo = (description: String) => {
     if (description.length !== 0) {
       setTodoList({
         listName: todoList.listName,
@@ -35,7 +38,6 @@ const TodoList: React.FC<TodoCtxtType> = ({ todoLists, setTodoLists, pickedListN
           ...todoList.listData
         ]
       });
-      applyChanges();
     }
   }
 
@@ -60,7 +62,6 @@ const TodoList: React.FC<TodoCtxtType> = ({ todoLists, setTodoLists, pickedListN
         (parentTodoData, i) => i === id ? todoData : parentTodoData
       )
     });
-    applyChanges();
   };
   
   const remove = (id: Number): void => {
@@ -71,7 +72,6 @@ const TodoList: React.FC<TodoCtxtType> = ({ todoLists, setTodoLists, pickedListN
         parentTodoData => parentTodoData.todoId !== id
       )
     });
-    applyChanges();
   };
 
   return (
@@ -90,7 +90,7 @@ const TodoList: React.FC<TodoCtxtType> = ({ todoLists, setTodoLists, pickedListN
       </div>
         <ul className="todo-lists">
         {
-          todoList && todoList.listData.map(
+          todoList.listData && todoList.listData.map(
             (todoData) => <Todo todoData={todoData} controls={{ modify, remove }} />
           )
         }
@@ -99,12 +99,4 @@ const TodoList: React.FC<TodoCtxtType> = ({ todoLists, setTodoLists, pickedListN
   );
 }
 
-export default () => (
-  <TodoCtxtConsumer>
-    {
-      ({ todoLists, setTodoLists, pickedListNo }: TodoCtxtType) => (
-        <TodoList todoLists={todoLists} setTodoLists={setTodoLists} pickedListNo={pickedListNo} />
-      )
-    }
-  </TodoCtxtConsumer>
-);
+export default TodoList;
