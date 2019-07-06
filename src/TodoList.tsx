@@ -2,23 +2,41 @@ import React, { useState } from 'react';
 import Todo from './Todo';
 import { Input } from 'semantic-ui-react';
 import { TodoCtxtConsumer, TodoCtxtType } from './Context';
+import { TodoType } from './types';
 
 /*
   Component Role(s)
   - Displays list of to-dos
 */
 
-const TodoList: React.FC<TodoCtxtType> = ({ todoList, setTodoList }) => {
+const TodoList: React.FC<TodoCtxtType> = ({ todoLists, setTodoLists, pickedListNo }) => {
+  const [todoList, setTodoList] = useState(
+    todoLists.filter(
+      ({ listId }) => listId === pickedListNo
+    ).slice()[0]
+  );
+
+  const applyChanges = (): void => {
+    setTodoLists(todoLists.map(
+      ctxtTodoList => ctxtTodoList.listId === pickedListNo ? todoList : ctxtTodoList
+    ));
+  }
 
   const addTodo = (description: String): void => {
     if (description.length !== 0) {
-      setTodoList([
-        {
-          description,
-          isDone: false
-        },
-        ...todoList
-      ]);
+      setTodoList({
+        listName: todoList.listName,
+        listId: todoList.listId,
+        listData: [
+          {
+            description,
+            isDone: false,
+            todoId: new Date().getTime()
+          },
+          ...todoList.listData
+        ]
+      });
+      applyChanges();
     }
   }
 
@@ -34,6 +52,29 @@ const TodoList: React.FC<TodoCtxtType> = ({ todoList, setTodoList }) => {
     setTodoInput('');
   }
 
+  //Control functions for childrens
+  const modify = (id: Number, todoData: TodoType): void => {
+    setTodoList({
+      listName: todoList.listName,
+      listId: todoList.listId,
+      listData: todoList.listData.map(
+        (parentTodoData, i) => i === id ? todoData : parentTodoData
+      )
+    });
+    applyChanges();
+  };
+  
+  const remove = (id: Number): void => {
+    setTodoList({
+      listName: todoList.listName,
+      listId: todoList.listId,
+      listData: todoList.listData.filter(
+        parentTodoData => parentTodoData.todoId !== id
+      )
+    });
+    applyChanges();
+  };
+
   return (
     <>
       <form onSubmit={handleOnSubmit}>
@@ -43,8 +84,12 @@ const TodoList: React.FC<TodoCtxtType> = ({ todoList, setTodoList }) => {
           onChange={ e => setTodoInput(e.target.value) }
         />
       </form>
-      <ul className="todo-lists">
-        { todoList.map( (_, i: number) => <Todo idx={i} /> ) }
+        <ul className="todo-lists">
+        {
+          todoList && todoList.listData.map(
+            (todoData) => <Todo todoData={todoData} controls={{ modify, remove }} />
+          )
+        }
       </ul>
     </>
   );
@@ -53,8 +98,8 @@ const TodoList: React.FC<TodoCtxtType> = ({ todoList, setTodoList }) => {
 export default () => (
   <TodoCtxtConsumer>
     {
-      ({ todoList, setTodoList }: TodoCtxtType) => (
-        <TodoList todoList={todoList} setTodoList={setTodoList} />
+      ({ todoLists, setTodoLists, pickedListNo }: TodoCtxtType) => (
+        <TodoList todoLists={todoLists} setTodoLists={setTodoLists} pickedListNo={pickedListNo} />
       )
     }
   </TodoCtxtConsumer>
