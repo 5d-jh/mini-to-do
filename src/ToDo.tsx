@@ -1,5 +1,6 @@
 import React from 'react';
 import { TodoType } from './types';
+
 /*
   Component Role(s)
   - Displays and modifies to-do
@@ -15,7 +16,7 @@ type TodoPropTypes = {
 
 const Todo: React.FC<TodoPropTypes> = ({ todoData, controls }) => {
   const { modify, remove } = controls;
-  const { isDone, description } = todoData;
+  const { isDone, description, todoId } = todoData;
 
   return (
     <div>
@@ -23,9 +24,9 @@ const Todo: React.FC<TodoPropTypes> = ({ todoData, controls }) => {
         color={isDone ? 'green' : 'grey'}
         onClick={
           () => modify(todoData.todoId, { 
-            description: todoData.description,
-            todoId: todoData.todoId,
-            isDone: !todoData.isDone
+            description,
+            todoId,
+            isDone: !isDone
           })
         }
       >

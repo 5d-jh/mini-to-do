@@ -59,7 +59,7 @@ const TodoList: React.FC<TodoListPropTypes> = ({ todoListValue, applyChanges }) 
       listName: todoList.listName,
       listId: todoList.listId,
       listData: todoList.listData.map(
-        (parentTodoData, i) => i === id ? todoData : parentTodoData
+        parentTodoData =>  parentTodoData.todoId === id ? todoData : parentTodoData
       )
     });
   };
