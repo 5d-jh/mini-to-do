@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import TodoList from './TodoList';
 import { TodoCtxtProvider } from './Context';
 import { TodoListType } from './types';
@@ -17,18 +17,18 @@ const App: React.FC = () => {
   const [pickedListNo, setPickedListNo] = useState<Number | null>(null);
 
   //Update todoLists as todoData changes
-  const applyChanges = (todoList: TodoListType): void => {
+  const applyChanges = useCallback((todoList: TodoListType): void => {
     setTodoLists(todoLists.map(
       ctxtTodoList => ctxtTodoList.listId === pickedListNo ? todoList : ctxtTodoList
     ));
-  }
+  }, [todoLists, pickedListNo]);
 
   //Change todoList as pickedListNo changes
   useEffect(() => {
     setTodoList(todoLists.filter(
       todoList => todoList.listId === pickedListNo
     )[0]);
-  }, [pickedListNo]);
+  }, [pickedListNo, setTodoList, todoLists]);
 
   return (
     <div className="container">
@@ -39,7 +39,7 @@ const App: React.FC = () => {
         <div className="right-pane">
           {
             pickedListNo && todoList ? (
-              <TodoList applyChanges={applyChanges} todoListValue={todoList}  />
+              <TodoList applyChanges={applyChanges} initialTodoList={todoList}  />
             ) : null
           }
         </div>

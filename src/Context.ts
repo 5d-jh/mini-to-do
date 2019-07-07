@@ -7,7 +7,7 @@ export interface TodoCtxtType {
   pickedListNo: Number | null,
 }
 
-const context = createContext<TodoCtxtType>(<TodoCtxtType>{});
+const context = createContext<TodoCtxtType>({} as TodoCtxtType);
 
 export const TodoCtxtProvider = context.Provider;
 export const TodoCtxtConsumer = context.Consumer;

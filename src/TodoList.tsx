@@ -9,24 +9,24 @@ import { TodoType, TodoListType } from './types';
 
 type TodoListPropTypes = {
   applyChanges(todoList: TodoListType): void,
-  todoListValue: TodoListType
+  initialTodoList: TodoListType
 };
 
-const TodoList: React.FC<TodoListPropTypes> = ({ todoListValue, applyChanges }) => {
-  const [todoList, setTodoList] = useState(todoListValue);
+const TodoList: React.FC<TodoListPropTypes> = ({ initialTodoList, applyChanges }) => {
+  const [todoList, setTodoList] = useState(initialTodoList);
 
   //Apply children changes to parent state
   useEffect(() => {
     applyChanges(todoList);
-  }, [todoList]);
+  }, [todoList, applyChanges]);
 
   useEffect(() => {
-    setTodoList(todoListValue)
-  }, [todoListValue]);
+    setTodoList(initialTodoList)
+  }, [initialTodoList]);
 
   const addTodo = (description: String) => {
     if (description.length !== 0) {
-      setTodoList({
+      setTodoList(prevState => ({
         listName: todoList.listName,
         listId: todoList.listId,
         listData: [
@@ -35,9 +35,9 @@ const TodoList: React.FC<TodoListPropTypes> = ({ todoListValue, applyChanges }) 
             isDone: false,
             todoId: new Date().getTime()
           },
-          ...todoList.listData
+          ...prevState.listData
         ]
-      });
+      }));
     }
   }
 
