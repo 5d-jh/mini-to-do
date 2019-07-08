@@ -24,7 +24,7 @@ const App: React.FC = () => {
           {
             selectedListInfo ? (
               <TodoList />
-            ) : null
+            ) : '👈 Select a to-do list to begin with.'
           }
         </RightPaneWrapper>
       </TodoContextProvider>
