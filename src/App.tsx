@@ -1,81 +1,33 @@
-import React, { useReducer, useState } from 'react';
+import React, { useState } from 'react';
 import TodoList from './TodoList';
-import { TodoContext } from './Context';
-import { TodoListType, TodoType } from './types';
+import { TodoContextProvider } from './Context';
+import { TodoListType } from './types';
 import LeftPane from './LeftPane';
 import styled from 'styled-components';
 
 /*
   Component Role(s)
-  - Stores ToDos
-  - Adds and modifies ToDo
+  - Stores and modifies selectedListInfo
+  - Provides context
 */
 
 const App: React.FC = () => {
-  const [todoListInfos, todoListInfosDispatch] = useReducer((
-    prevState: TodoListType[],
-    action: {
-      type: String,
-      todoListInfo: TodoListType
-    }
-  ) => {
-    switch(action.type) {
-      case 'add':
-        return action.todoListInfo ? [action.todoListInfo, ...prevState] : prevState;
-
-      default:
-        return prevState;
-    }
-  }, Array<TodoListType>());
-
-  const [todoList, todoListDispatch] = useReducer((
-    prevState: TodoType[],
-    action: {
-      type: 'add' | 'remove' | 'modify',
-      todo: TodoType
-    }
-  ) => {
-    switch(action.type) {
-      case 'add':
-        return action.todo ? [action.todo, ...prevState] : prevState;
-
-      case 'remove':
-        return action.todo ? (
-          prevState.filter( todo => todo.todoId !== action.todo.todoId )
-        ) : prevState;
-
-      case 'modify':
-        return action.todo ? (
-          prevState.map(
-            todo => todo.todoId === action.todo.todoId ? action.todo : todo
-          )
-        ) : prevState;
-
-      default:
-        return prevState;
-    }
-  }, Array<TodoType>());
-
   const [selectedListInfo, setSelectedListInfo] = useState<TodoListType | null>(null);
 
   return (
     <Container>
-      <TodoContext.Provider value={{
-        todoListInfos, todoListInfosDispatch,
-        todoList, todoListDispatch,
-        selectedListInfo
-      }}>
+      <TodoContextProvider value={{ selectedListInfo }}>
         <LeftPaneWrapper>
           <LeftPane setSelectedListInfo={setSelectedListInfo} />
         </LeftPaneWrapper>
         <RightPaneWrapper>
           {
-            selectedListInfo && todoList ? (
+            selectedListInfo ? (
               <TodoList />
             ) : null
           }
         </RightPaneWrapper>
-      </TodoContext.Provider>
+      </TodoContextProvider>
     </Container>
   );
 }
