@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { TodoCtxtConsumer, TodoCtxtType } from './Context';
 import { TodoType } from './types';
+import { SubTitle, TextInput } from './styles';
+import styled from 'styled-components';
 
 type LeftPanePropTypes = {
   setPickedListNo: Function
@@ -33,12 +35,10 @@ const LeftPane: React.FC<LeftPanePropTypes & TodoCtxtType> = ({
 
   return (
     <>
-      <h2 className="user title">Homer</h2>
-      <div className="subtitle">
-        Groups
-      </div>
+      <UserTitle>Homer</UserTitle>
+      <SubTitle>Groups</SubTitle>
       <form onSubmit={handleOnSubmit}>
-        <input
+        <TextInput
           value={listNameInput}
           placeholder="Press Enter to create list"
           onChange={ e => setListName(e.target.value) }
@@ -63,6 +63,14 @@ const LeftPane: React.FC<LeftPanePropTypes & TodoCtxtType> = ({
     </>
   );
 }
+
+const UserTitle = styled.h2`
+  margin: 0;
+  padding: 0;
+  font-size: 25px;
+  font-weight: bold;
+  color: #707070;
+`;
 
 export default ({ setPickedListNo }: LeftPanePropTypes) => (
   <TodoCtxtConsumer>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Todo from './Todo';
 import { TodoType, TodoListType } from './types';
+import styled from 'styled-components';
+import { SubTitle, TextInput } from './styles';
 
 /*
   Component Role(s)
@@ -76,18 +78,18 @@ const TodoList: React.FC<TodoListPropTypes> = ({ initialTodoList, applyChanges }
 
   return (
     <>
-      <h1 className="list title">{todoList.listName}</h1>
+      <ListTitle>{todoList.listName}</ListTitle>
       <form onSubmit={handleOnSubmit}>
-        <input
+        <TextInput
           value={todoInput}
           placeholder="Press Enter to add To-Do"
           onChange={ e => setTodoInput(e.target.value) }
           className="text-input"
         />
       </form>
-      <div className="subtitle">
+      <SubTitle>
         To-Dos
-      </div>
+      </SubTitle>
         <ul className="todo-lists">
         {
           todoList.listData && todoList.listData.map(
@@ -98,5 +100,12 @@ const TodoList: React.FC<TodoListPropTypes> = ({ initialTodoList, applyChanges }
     </>
   );
 }
+
+const ListTitle = styled.h1`
+  margin: 0;
+  padding: 0;
+  font-size: 33px;
+  font-weight: bold;
+`;
 
 export default TodoList;

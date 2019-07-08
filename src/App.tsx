@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import TodoList from './TodoList';
 import { TodoCtxtProvider } from './Context';
 import { TodoListType } from './types';
-import './App.css'
 import LeftPane from './LeftPane';
+import styled from 'styled-components';
 
 /*
   Component Role(s)
@@ -31,21 +31,38 @@ const App: React.FC = () => {
   }, [pickedListNo, setTodoList, todoLists]);
 
   return (
-    <div className="container">
+    <Container>
       <TodoCtxtProvider value={{ todoLists, setTodoLists, pickedListNo }}>
-        <div className="left-pane">
+        <LeftPaneWrapper>
           <LeftPane setPickedListNo={setPickedListNo} />
-        </div>
-        <div className="right-pane">
+        </LeftPaneWrapper>
+        <RightPaneWrapper>
           {
             pickedListNo && todoList ? (
               <TodoList applyChanges={applyChanges} initialTodoList={todoList}  />
             ) : null
           }
-        </div>
+        </RightPaneWrapper>
       </TodoCtxtProvider>
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  padding-top: 10px;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+`;
+
+const LeftPaneWrapper = styled.div`
+  width: 300px;
+  padding-right: 15px;
+`;
+const RightPaneWrapper = styled.div`
+  width: 100%;
+  padding-left: 15px;
+`;
 
 export default App;
