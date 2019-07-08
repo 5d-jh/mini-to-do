@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useReducer, useState } from 'react';
 import TodoList from './TodoList';
-import { TodoCtxtProvider } from './Context';
-import { TodoListType } from './types';
+import { TodoContext } from './Context';
+import { TodoListType, TodoType } from './types';
 import LeftPane from './LeftPane';
 import styled from 'styled-components';
 
@@ -12,38 +12,70 @@ import styled from 'styled-components';
 */
 
 const App: React.FC = () => {
-  const [todoLists, setTodoLists] = useState(Array<TodoListType>());
-  const [todoList, setTodoList] = useState({} as TodoListType);
-  const [pickedListNo, setPickedListNo] = useState<Number | null>(null);
+  const [todoListInfos, todoListInfosDispatch] = useReducer((
+    prevState: TodoListType[],
+    action: {
+      type: String,
+      todoListInfo: TodoListType
+    }
+  ) => {
+    switch(action.type) {
+      case 'add':
+        return action.todoListInfo ? [action.todoListInfo, ...prevState] : prevState;
 
-  //Update todoLists as todoData changes
-  const applyChanges = useCallback((todoList: TodoListType): void => {
-    setTodoLists(todoLists.map(
-      ctxtTodoList => ctxtTodoList.listId === pickedListNo ? todoList : ctxtTodoList
-    ));
-  }, [todoLists, pickedListNo]);
+      default:
+        return prevState;
+    }
+  }, Array<TodoListType>());
 
-  //Change todoList as pickedListNo changes
-  useEffect(() => {
-    setTodoList(todoLists.filter(
-      todoList => todoList.listId === pickedListNo
-    )[0]);
-  }, [pickedListNo, setTodoList, todoLists]);
+  const [todoList, todoListDispatch] = useReducer((
+    prevState: TodoType[],
+    action: {
+      type: 'add' | 'remove' | 'modify',
+      todo: TodoType
+    }
+  ) => {
+    switch(action.type) {
+      case 'add':
+        return action.todo ? [action.todo, ...prevState] : prevState;
+
+      case 'remove':
+        return action.todo ? (
+          prevState.filter( todo => todo.todoId !== action.todo.todoId )
+        ) : prevState;
+
+      case 'modify':
+        return action.todo ? (
+          prevState.map(
+            todo => todo.todoId === action.todo.todoId ? action.todo : todo
+          )
+        ) : prevState;
+
+      default:
+        return prevState;
+    }
+  }, Array<TodoType>());
+
+  const [selectedListInfo, setSelectedListInfo] = useState<TodoListType | null>(null);
 
   return (
     <Container>
-      <TodoCtxtProvider value={{ todoLists, setTodoLists, pickedListNo }}>
+      <TodoContext.Provider value={{
+        todoListInfos, todoListInfosDispatch,
+        todoList, todoListDispatch,
+        selectedListInfo
+      }}>
         <LeftPaneWrapper>
-          <LeftPane setPickedListNo={setPickedListNo} />
+          <LeftPane setSelectedListInfo={setSelectedListInfo} />
         </LeftPaneWrapper>
         <RightPaneWrapper>
           {
-            pickedListNo && todoList ? (
-              <TodoList applyChanges={applyChanges} initialTodoList={todoList}  />
+            selectedListInfo && todoList ? (
+              <TodoList />
             ) : null
           }
         </RightPaneWrapper>
-      </TodoCtxtProvider>
+      </TodoContext.Provider>
     </Container>
   );
 }

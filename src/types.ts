@@ -1,11 +1,11 @@
 export type TodoType = {
   description: String,
   isDone: Boolean,
-  todoId: Number
+  todoId: Number,
+  todoListId: Number
 }
 
 export type TodoListType = {
   listName: String,
-  listId: Number,
-  listData: TodoType[]
+  todoListId: Number
 }

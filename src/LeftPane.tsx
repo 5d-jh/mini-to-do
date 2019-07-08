@@ -1,25 +1,10 @@
-import React, { useState } from 'react';
-import { TodoCtxtConsumer, TodoCtxtType } from './Context';
-import { TodoType } from './types';
+import React, { useState, useContext } from 'react';
+import { TodoContext } from './Context';
 import { SubTitle, TextInput } from './styles';
 import styled from 'styled-components';
 
-type LeftPanePropTypes = {
-  setPickedListNo: Function
-}
-
-const LeftPane: React.FC<LeftPanePropTypes & TodoCtxtType> = ({
-  todoLists, setTodoLists, pickedListNo, setPickedListNo
-}) => {
-  const createTodoList = (listName: String) => {
-    setTodoLists([
-      {
-        listName,
-        listId: new Date().getTime(),
-        listData: Array<TodoType>()
-      }, ...todoLists
-    ])
-  }
+const LeftPane: React.FC<{ setSelectedListInfo: Function }> = ({ setSelectedListInfo }) => {
+  const { todoListInfos, todoListInfosDispatch } = useContext(TodoContext);
 
   const [ listNameInput, setListName ] = useState(String);
 
@@ -27,7 +12,13 @@ const LeftPane: React.FC<LeftPanePropTypes & TodoCtxtType> = ({
     e.preventDefault();
 
     if (listNameInput.length !== 0) {
-      createTodoList(listNameInput);
+      todoListInfosDispatch({ 
+        type: 'add',
+        todoListInfo: {
+          listName: listNameInput,
+          todoListId: new Date().getTime()
+        }
+      });
     }
 
     setListName('');
@@ -47,12 +38,16 @@ const LeftPane: React.FC<LeftPanePropTypes & TodoCtxtType> = ({
       </form>
       <div className="group-list">
         {
-          todoLists.map( todoList => (
-            <div key={`${todoList.listId}`}>
+          todoListInfos.map( todoList => (
+            <div key={`${todoList.todoListId}`}>
               <button
-                id={`${todoList.listId}`}
-                key={`${todoList.listId}`}
-                onClick={ e => setPickedListNo(Number(e.currentTarget.id)) }
+                id={`${todoList.todoListId}`}
+                name={`${todoList.listName}`}
+                key={`${todoList.todoListId}`}
+                onClick={ e => setSelectedListInfo({
+                  todoListId: Number(e.currentTarget.id),
+                  listName: e.currentTarget.name
+                }) }
               >
                 {todoList.listName}
               </button>
@@ -72,12 +67,4 @@ const UserTitle = styled.h2`
   color: #707070;
 `;
 
-export default ({ setPickedListNo }: LeftPanePropTypes) => (
-  <TodoCtxtConsumer>
-    {
-      ({ todoLists, setTodoLists, pickedListNo }) => (
-        <LeftPane todoLists={todoLists} setTodoLists={setTodoLists} pickedListNo={pickedListNo} setPickedListNo={setPickedListNo} />
-      )
-    }
-  </TodoCtxtConsumer>
-);
+export default LeftPane;

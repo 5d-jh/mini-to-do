@@ -1,13 +1,12 @@
 import { createContext } from 'react';
-import { TodoListType } from './types';
+import { TodoListType, TodoType } from './types';
 
 export interface TodoCtxtType {
-  todoLists: TodoListType[],
-  setTodoLists: Function,
-  pickedListNo: Number | null,
+  todoListInfos: TodoListType[],
+  todoListInfosDispatch: Function,
+  todoList: TodoType[],
+  todoListDispatch: Function
+  selectedListInfo: TodoListType | null,
 }
 
-const context = createContext<TodoCtxtType>({} as TodoCtxtType);
-
-export const TodoCtxtProvider = context.Provider;
-export const TodoCtxtConsumer = context.Consumer;
+export const TodoContext = createContext<TodoCtxtType>({} as TodoCtxtType);

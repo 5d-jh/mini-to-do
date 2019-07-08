@@ -1,40 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TodoType } from './types';
+import { TodoContext } from './Context';
 
 /*
   Component Role(s)
   - Displays and modifies to-do
 */
 
-type TodoPropTypes = {
-  todoData: TodoType,
-  controls: {
-    modify(id: Number, todoData: TodoType): void,
-    remove(id: Number): void
-  }
-}
-
-const Todo: React.FC<TodoPropTypes> = ({ todoData, controls }) => {
-  const { modify, remove } = controls;
-  const { isDone, description, todoId } = todoData;
+const Todo: React.FC<{ todo: TodoType }> = ({ todo }) => {
+  const { todoListDispatch } = useContext(TodoContext);
+  
+  const { todoId, todoListId, isDone, description } = todo;
 
   return (
     <div>
       <button
         color={isDone ? 'green' : 'grey'}
         onClick={
-          () => modify(todoData.todoId, { 
-            description,
-            todoId,
-            isDone: !isDone
+          () => todoListDispatch({
+            type: 'modify',
+            todo: {
+              description,
+              todoId,
+              todoListId,
+              isDone: !isDone,
+            }
           })
         }
       >
         Mark as done
       </button>
       <button
-        color="red"
-        onClick={ () => remove(todoData.todoId) }
+        onClick={ () => todoListDispatch({ type: 'remove', todo }) }
       >
         Delete
       </button>
