@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/mini-to-do/static/css/main.78d608c1.chunk.css",
-    "main.js": "/mini-to-do/static/js/main.15184c12.chunk.js",
-    "main.js.map": "/mini-to-do/static/js/main.15184c12.chunk.js.map",
+    "main.js": "/mini-to-do/static/js/main.2256c5d3.chunk.js",
+    "main.js.map": "/mini-to-do/static/js/main.2256c5d3.chunk.js.map",
     "runtime~main.js": "/mini-to-do/static/js/runtime~main.161ed519.js",
     "runtime~main.js.map": "/mini-to-do/static/js/runtime~main.161ed519.js.map",
-    "static/js/2.49b3ee11.chunk.js": "/mini-to-do/static/js/2.49b3ee11.chunk.js",
-    "static/js/2.49b3ee11.chunk.js.map": "/mini-to-do/static/js/2.49b3ee11.chunk.js.map",
+    "static/js/2.3d4e3b25.chunk.js": "/mini-to-do/static/js/2.3d4e3b25.chunk.js",
+    "static/js/2.3d4e3b25.chunk.js.map": "/mini-to-do/static/js/2.3d4e3b25.chunk.js.map",
     "index.html": "/mini-to-do/index.html",
-    "precache-manifest.3063d12a58d6ce18bce88ba232786470.js": "/mini-to-do/precache-manifest.3063d12a58d6ce18bce88ba232786470.js",
+    "precache-manifest.1e05a1bd3099316d48a0013e93ef92cc.js": "/mini-to-do/precache-manifest.1e05a1bd3099316d48a0013e93ef92cc.js",
     "service-worker.js": "/mini-to-do/service-worker.js",
     "static/css/main.78d608c1.chunk.css.map": "/mini-to-do/static/css/main.78d608c1.chunk.css.map"
   }
