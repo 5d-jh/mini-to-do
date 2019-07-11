@@ -1,46 +1,26 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { TodoContext } from './Context';
-import { SubTitle, TextInput } from './styles';
+import { SubTitle, ListButton } from './styles';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
+import CreateList from './LeftPaneComponents/CreateList';
 
 const LeftPane: React.FC<{ setSelectedListInfo: Function }> = ({ setSelectedListInfo }) => {
-  const { todoListInfos, todoListInfosDispatch, selectedListInfo } = useContext(TodoContext);
-
-  const [ listNameInput, setListName ] = useState(String);
-
-  const handleOnSubmit = (e: { preventDefault: Function }) => {
-    e.preventDefault();
-
-    if (listNameInput.length !== 0) {
-      todoListInfosDispatch({ 
-        type: 'add',
-        todoListInfo: {
-          listName: listNameInput,
-          todoListId: new Date().getTime()
-        }
-      });
-    }
-
-    setListName('');
-  }
+  const { todoListInfos, selectedListInfo } = useContext(TodoContext);
 
   return (
     <>
       <UserTitle>Homer</UserTitle>
       <SubTitle>Groups</SubTitle>
-      <form onSubmit={handleOnSubmit}>
-        <TextInput
-          value={listNameInput}
-          placeholder="Press Enter to create list"
-          onChange={ e => setListName(e.target.value) }
-          className="text-input"
-        />
-      </form>
+      
       <ListWrapper>
         {
           todoListInfos.map( ({ todoListId, listName }) => (
             <ListButtonWrapper key={`${todoListId}`}>
-              <ListColor />
+              <div>
+                <ListIcon icon={faCircle} color="#1B7CDD" style={{ height: '100%', margin: 'auto' }} />
+              </div>
               <ListButton
                 id={`${todoListId}`}
                 name={`${listName}`}
@@ -56,6 +36,12 @@ const LeftPane: React.FC<{ setSelectedListInfo: Function }> = ({ setSelectedList
             </ListButtonWrapper>
           ) )
         }
+        <ListButtonWrapper>
+          <div>
+            <ListIcon icon={faPlus} color="#23BC35" style={{ height: '100%' , margin: 'auto' }} />
+          </div>
+          <CreateList />
+        </ListButtonWrapper>
       </ListWrapper>
     </>
   );
@@ -76,42 +62,15 @@ const UserTitle = styled.h2`
 `;
 
 const ListButtonWrapper = styled.div`
-  div ~ button {
-    margin-left: 9px;
-  }
-
   display: flex;
   flex-direction: row;
   height: 35px;
 `;
-const ListColor = styled.div`
-  margin: auto 0;
-  background-color: #1B7CDD;
-  border: 3px solid #86BBF0;
-  width: 1.5em;
-  height: calc(1.5em - 2.7px);
-  border-radius: 50%;
-  box-sizing: border-box;
-`;
-const ListButton = styled.button<{ isSelected: Boolean | null }>`
-  :hover {
-    background-color: #F5F5F5;
-  }
 
-  cursor: pointer;
-
-  overflow-x: hidden;
-  margin: 0;
-  box-sizing: border-box;
-  padding: 4px 8px;
-  background-color: ${ props => props.isSelected ? '#F0F0F0' : 'white' };
-  font-weight: ${ props => props.isSelected ? 'bold' : 'medium' };
-  border: none;
-  width: 100%;
+const ListIcon = styled(FontAwesomeIcon)`
   height: 100%;
-  text-align: left;
-  font-size: 20px;
-  border-radius: 8px;
+  margin: auto;
+  padding-right: 0.3em;
 `;
 
 export default LeftPane;

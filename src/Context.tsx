@@ -27,7 +27,7 @@ export const TodoContextProvider: React.FC<{ value?: Object }> = ({ children, va
   ) => {
     switch(action.type) {
       case 'add':
-        return action.todoListInfo ? [action.todoListInfo, ...prevState] : prevState;
+        return action.todoListInfo ? [...prevState, action.todoListInfo] : prevState;
 
       default:
         return prevState;
