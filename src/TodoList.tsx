@@ -46,10 +46,24 @@ const TodoList: React.FC = () => {
       <SubTitle>
         To-Dos
       </SubTitle>
-        <ul className="todo-lists">
+      <ul className="todo-lists">
         {
           todoList.map(
-            todo => todo.todoListId === selectedListInfo.todoListId ? <Todo todo={todo} /> : null
+            todo => todo.todoListId === selectedListInfo.todoListId && !todo.isDone ? (
+              <Todo todo={todo} />
+            ) : null
+          )
+        }
+      </ul>
+      <SubTitle>
+        Done
+      </SubTitle>
+      <ul className="todo-lists">
+        {
+          todoList.map(
+            todo => todo.todoListId === selectedListInfo.todoListId && todo.isDone ? (
+              <Todo todo={todo} />
+            ) : null
           )
         }
       </ul>
