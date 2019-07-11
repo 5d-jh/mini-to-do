@@ -46,7 +46,7 @@ const TodoList: React.FC = () => {
       <SubTitle>
         To-Dos
       </SubTitle>
-      <ul className="todo-lists">
+      <TodoListWrapper>
         {
           todoList.map(
             todo => todo.todoListId === selectedListInfo.todoListId && !todo.isDone ? (
@@ -54,11 +54,11 @@ const TodoList: React.FC = () => {
             ) : null
           )
         }
-      </ul>
+      </TodoListWrapper>
       <SubTitle>
         Done
       </SubTitle>
-      <ul className="todo-lists">
+      <TodoListWrapper>
         {
           todoList.map(
             todo => todo.todoListId === selectedListInfo.todoListId && todo.isDone ? (
@@ -66,10 +66,15 @@ const TodoList: React.FC = () => {
             ) : null
           )
         }
-      </ul>
+      </TodoListWrapper>
     </>
   );
 }
+
+const TodoListWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const ListTitle = styled.h1`
   margin: 0;

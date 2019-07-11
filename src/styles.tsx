@@ -31,6 +31,7 @@ export const Button = styled.button`
   border: none;
   font-size: 20px;
   border-radius: 8px;
+  cursor: pointer;
 `;
 
 export const ListButton = styled(Button)<{ isSelected?: Boolean | null }>`
