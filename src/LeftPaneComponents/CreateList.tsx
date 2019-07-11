@@ -25,11 +25,12 @@ const CreateList: React.FC = () => {
     setIsOpened(false);
     setListName('');
   }
-
+  
   return (
     isOpened ? (
       <form onSubmit={handleOnSubmit}>
         <ListNameInput
+          ref={ input => input && input.focus() }
           value={listName}
           onChange={ e => setListName(e.target.value) }
           className="text-input"
