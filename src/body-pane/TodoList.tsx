@@ -55,18 +55,24 @@ const TodoList: React.FC = () => {
           )
         }
       </TodoListWrapper>
-      <SubTitle>
-        Done
-      </SubTitle>
-      <TodoListWrapper>
-        {
-          todoList.map(
-            todo => todo.todoListId === selectedListInfo.todoListId && todo.isDone ? (
-              <Todo todo={todo} />
-            ) : null
-          )
-        }
-      </TodoListWrapper>
+      {
+        todoList.filter( todo => todo.isDone ).length !== 0 && (
+          <>
+            <SubTitle>
+              Done
+            </SubTitle>
+            <TodoListWrapper>
+              {
+                todoList.map(
+                  todo => todo.todoListId === selectedListInfo.todoListId && todo.isDone ? (
+                    <Todo todo={todo} />
+                  ) : null
+                )
+              }
+            </TodoListWrapper>
+          </>
+        )
+      }
     </>
   );
 }
