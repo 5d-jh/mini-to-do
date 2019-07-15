@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { TodoType } from './types';
-import { TodoContext } from './Context';
+import { TodoType } from '../types';
+import { TodoContext } from '../Context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Button } from './styles';
+import { Button } from '../styles';
 import styled from 'styled-components';
 
 /*

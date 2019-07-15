@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import TodoList from './TodoList';
+import TodoList from './body-pane/TodoList';
 import { TodoContextProvider } from './Context';
 import { TodoListType } from './types';
-import LeftPane from './LeftPane';
+import LeftPane from './side-pane/LeftPane';
 import styled from 'styled-components';
 
 /*

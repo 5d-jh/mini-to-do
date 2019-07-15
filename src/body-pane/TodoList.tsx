@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import Todo from './Todo';
 import styled from 'styled-components';
-import { SubTitle, TextInput } from './styles';
-import { TodoContext } from './Context';
+import { SubTitle, TextInput } from '../styles';
+import { TodoContext } from '../Context';
 
 /*
   Component Role(s)

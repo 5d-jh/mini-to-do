@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { TodoContext } from './Context';
-import { SubTitle, ListButton } from './styles';
+import { TodoContext } from '../Context';
+import { SubTitle, ListButton } from '../styles';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
-import CreateList from './LeftPaneComponents/CreateList';
+import CreateList from './CreateList';
 
 const LeftPane: React.FC<{ setSelectedListInfo: Function }> = ({ setSelectedListInfo }) => {
   const { todoListInfos, selectedListInfo } = useContext(TodoContext);
