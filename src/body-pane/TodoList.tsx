@@ -10,11 +10,15 @@ import { TodoContext } from '../Context';
 */
 
 const TodoList: React.FC = () => {
-  const { todoList, todoListDispatch, selectedListInfo } = useContext(TodoContext);
+  const {
+    todoList,
+    todoListDispatch,
+    selectedListInfo
+  } = useContext(TodoContext);
 
   const [todoInput, setTodoInput] = useState(String);
 
-  const handleOnSubmit = (e: { preventDefault: Function }) => {
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (todoInput.length !== 0) {

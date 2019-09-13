@@ -21,13 +21,27 @@ export const TodoContextProvider: React.FC<{ value?: Object }> = ({ children, va
   const [todoListInfos, todoListInfosDispatch] = useReducer((
     prevState: TodoListType[],
     action: {
-      type: String,
+      type: 'add' | 'remove' | 'modify',
       todoListInfo: TodoListType
     }
   ) => {
     switch(action.type) {
       case 'add':
         return action.todoListInfo ? [...prevState, action.todoListInfo] : prevState;
+
+      case 'remove':
+        return action.todoListInfo ? (
+          prevState.filter(
+            listInfo => listInfo.todoListId !== action.todoListInfo.todoListId
+          )
+        ) : prevState;
+
+      case 'modify':
+        return action.todoListInfo ? (
+          prevState.map(
+            listInfo => listInfo.todoListId === action.todoListInfo.todoListId ? action.todoListInfo : listInfo
+          )
+        ): prevState;
 
       default:
         return prevState;
