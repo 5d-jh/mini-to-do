@@ -3,11 +3,15 @@ import { TextInput, Button } from '../styles';
 import { TodoContext } from '../Context';
 import styled from 'styled-components';
 
-const CreateList: React.FC = () => {
+const TodoListTitle: React.FC = () => {
   const { todoListInfosDispatch, selectedListInfo } = useContext(TodoContext);
 
   const [isOpened, setIsOpened] = useState(false);
-  const [listName, setListName] = useState('');
+  const [listName, setListName] = useState(selectedListInfo ? `${selectedListInfo.listName}` : '');
+
+  useEffect(() => {
+    selectedListInfo && setListName(`${selectedListInfo.listName}`)
+  }, [selectedListInfo]);
 
   const handleOnSubmit = (e: { preventDefault: Function }) => {
     e.preventDefault();
@@ -23,7 +27,6 @@ const CreateList: React.FC = () => {
     }
 
     setIsOpened(false);
-    setListName('');
   }
 
   const ListNameInputElem = useRef({} as HTMLInputElement);
@@ -44,7 +47,7 @@ const CreateList: React.FC = () => {
       </ListTitle>
     ) : (
         <Button onClick={ () => setIsOpened(true) }>
-          <ListTitle>{selectedListInfo.listName}</ListTitle>
+          <ListTitle>{listName}</ListTitle>
         </Button>
     )
   );
@@ -63,4 +66,4 @@ const ListTitle = styled.h1`
   font-weight: bold;
 `;
 
-export default CreateList;
+export default TodoListTitle;

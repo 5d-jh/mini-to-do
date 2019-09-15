@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useState } from 'react';
+import React, { createContext, useReducer, useState, useEffect } from 'react';
 import { TodoListType, TodoType } from './types';
 
 /*
@@ -77,7 +77,16 @@ export const TodoContextProvider: React.FC<{ value?: Object }> = ({ children, va
     }
   }, Array<TodoType>());
 
-  const [selectedListInfo, setSelectedListInfo] = useState(null);
+  const [selectedListInfo, setSelectedListInfo] = useState();
+  useEffect(() => {
+    selectedListInfo && setSelectedListInfo(
+      todoListInfos.filter(
+        todoListInfo => (
+          todoListInfo.todoListId === selectedListInfo.todoListId
+        )
+      )[0]
+    );
+  }, [todoListInfos, selectedListInfo]);
 
   return (
     <TodoContext.Provider value={{

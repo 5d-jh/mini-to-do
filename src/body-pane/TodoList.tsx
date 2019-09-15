@@ -39,9 +39,7 @@ const TodoList: React.FC = () => {
 
   return selectedListInfo ? (
     <>
-      <TodoListTitle>
-        {selectedListInfo.listName}
-      </TodoListTitle>
+      <TodoListTitle />
       <form onSubmit={handleOnSubmit}>
         <TextInput
           value={todoInput}

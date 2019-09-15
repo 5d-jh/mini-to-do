@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import TodoList from './body-pane/TodoList';
-import { TodoContextProvider, TodoContext } from './Context';
+import { TodoContextProvider } from './Context';
 import LeftPane from './side-pane/LeftPane';
 import styled from 'styled-components';
 
