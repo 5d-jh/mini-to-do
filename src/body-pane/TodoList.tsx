@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import Todo from './Todo';
+import TodoListTitle from './TodoListTitle';
 import styled from 'styled-components';
 import { SubTitle, TextInput } from '../styles';
 import { TodoContext } from '../Context';
@@ -36,9 +37,11 @@ const TodoList: React.FC = () => {
     setTodoInput('');
   }
 
-  return selectedListInfo && (
+  return selectedListInfo ? (
     <>
-      <ListTitle>{selectedListInfo.listName}</ListTitle>
+      <TodoListTitle>
+        {selectedListInfo.listName}
+      </TodoListTitle>
       <form onSubmit={handleOnSubmit}>
         <TextInput
           value={todoInput}
@@ -78,19 +81,12 @@ const TodoList: React.FC = () => {
         )
       }
     </>
-  );
+  ) : <>👈 Select a to-do list to begin with.</>;
 }
 
 const TodoListWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const ListTitle = styled.h1`
-  margin: 0;
-  padding: 0;
-  font-size: 33px;
-  font-weight: bold;
 `;
 
 export default TodoList;

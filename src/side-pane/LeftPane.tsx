@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
 import CreateList from './CreateList';
 
-const LeftPane: React.FC<{ setSelectedListInfo: Function }> = ({ setSelectedListInfo }) => {
-  const { todoListInfos, selectedListInfo } = useContext(TodoContext);
+const LeftPane: React.FC = () => {
+  const { todoListInfos, selectedListInfo, setSelectedListInfo } = useContext(TodoContext);
 
   return (
     <>

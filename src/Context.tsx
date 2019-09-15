@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useState } from 'react';
 import { TodoListType, TodoType } from './types';
 
 /*
@@ -13,6 +13,7 @@ export interface TodoCtxtType {
   todoList: TodoType[],
   todoListDispatch: Function
   selectedListInfo: TodoListType | null,
+  setSelectedListInfo: Function
 }
 
 export const TodoContext = createContext<TodoCtxtType>({} as TodoCtxtType);
@@ -76,11 +77,14 @@ export const TodoContextProvider: React.FC<{ value?: Object }> = ({ children, va
     }
   }, Array<TodoType>());
 
+  const [selectedListInfo, setSelectedListInfo] = useState(null);
+
   return (
     <TodoContext.Provider value={{
       todoListInfos, todoListInfosDispatch,
       todoList, todoListDispatch,
-      selectedListInfo: null,
+      selectedListInfo,
+      setSelectedListInfo,
       ...value
     }}>
       {children}

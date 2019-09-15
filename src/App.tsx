@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import TodoList from './body-pane/TodoList';
-import { TodoContextProvider } from './Context';
-import { TodoListType } from './types';
+import { TodoContextProvider, TodoContext } from './Context';
 import LeftPane from './side-pane/LeftPane';
 import styled from 'styled-components';
 
@@ -12,20 +11,14 @@ import styled from 'styled-components';
 */
 
 const App: React.FC = () => {
-  const [selectedListInfo, setSelectedListInfo] = useState<TodoListType | null>(null);
-
   return (
     <Container>
-      <TodoContextProvider value={{ selectedListInfo }}>
+      <TodoContextProvider>
         <LeftPaneWrapper>
-          <LeftPane setSelectedListInfo={setSelectedListInfo} />
+          <LeftPane />
         </LeftPaneWrapper>
         <RightPaneWrapper>
-          {
-            selectedListInfo ? (
-              <TodoList />
-            ) : '👈 Select a to-do list to begin with.'
-          }
+          <TodoList />
         </RightPaneWrapper>
       </TodoContextProvider>
     </Container>
