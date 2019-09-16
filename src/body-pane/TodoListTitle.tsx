@@ -1,7 +1,9 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
-import { TextInput, Button } from '../styles';
+import { TextInput, Button, IconButton } from '../styles';
 import { TodoContext } from '../Context';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const TodoListTitle: React.FC = () => {
   const { todoListInfosDispatch, selectedListInfo } = useContext(TodoContext);
@@ -35,20 +37,34 @@ const TodoListTitle: React.FC = () => {
   }, [isOpened]);
   
   return selectedListInfo && (
-    isOpened ? (
-      <ListTitle>
-      <form onSubmit={handleOnSubmit}>
-        <ListNameInput
-          ref={ListNameInputElem}
-          onChange={ e => setListName(e.target.value) }
-          value={listName}
-        />
-      </form>
-      </ListTitle>
+      isOpened ? (
+        <ListTitle  style={{ display: 'inline-block' }}>
+          <form onSubmit={handleOnSubmit}>
+            <ListNameInput
+              ref={ListNameInputElem}
+              onChange={ e => setListName(e.target.value) }
+              value={listName}
+            />
+          </form>
+          <IconButton
+            onClick={
+              () => todoListInfosDispatch({
+                type: 'remove',
+                todoListInfo: selectedListInfo
+              })
+            }
+            style={{
+              display: 'inline-block'
+            }}
+          >
+            <FontAwesomeIcon icon={faTrash} color="#EB2C2C" />
+            Remove List
+          </IconButton>
+        </ListTitle>
     ) : (
-        <Button onClick={ () => setIsOpened(true) }>
-          <ListTitle>{listName}</ListTitle>
-        </Button>
+      <Button onClick={ () => setIsOpened(true) }>
+        <ListTitle>{listName}</ListTitle>
+      </Button>
     )
   );
 }

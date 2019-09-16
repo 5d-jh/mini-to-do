@@ -3,7 +3,7 @@ import { TodoType } from '../types';
 import { TodoContext } from '../Context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Button } from '../styles';
+import { Button, IconButton } from '../styles';
 import styled from 'styled-components';
 
 /*
@@ -18,7 +18,7 @@ const Todo: React.FC<{ todo: TodoType }> = ({ todo }) => {
 
   return (
     <TodoItem>
-      <TodoButton
+      <IconButton
         onClick={
           () => todoListDispatch({
             type: 'modify',
@@ -32,7 +32,7 @@ const Todo: React.FC<{ todo: TodoType }> = ({ todo }) => {
         }
       >
         <FontAwesomeIcon icon={faCheck} color={todo.isDone ? '#1B7CDD' : '#707070'} />
-      </TodoButton>
+      </IconButton>
       <TodoDescription isDone={isDone}>
         {description}
       </TodoDescription>
@@ -58,11 +58,7 @@ const TodoItem = styled(Button)`
   margin: 2px 0;
 `;
 
-const TodoButton = styled(Button)`
-  box-sizing: border-box;
-`;
-
-const RemoveButton = styled(TodoButton)`
+const RemoveButton = styled(IconButton)`
   position: absolute;
   right: 0;
 `;

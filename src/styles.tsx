@@ -42,3 +42,12 @@ export const ListButton = styled(Button)<{ isSelected?: Boolean | null }>`
   background-color: ${ props => props.isSelected ? '#F0F0F0' : 'white' };
   font-weight: ${ props => props.isSelected ? 'bold' : 'medium' };
 `;
+
+export const IconButton = styled(Button)`
+  box-sizing: border-box;
+`;
+
+export const RemoveButton = styled(IconButton)`
+  position: absolute;
+  right: 0;
+`;
